@@ -1,0 +1,53 @@
+storage:
+  type: file
+  mysql:
+    host: localhost
+    port: 3306
+    username: root
+    password: admin
+    database: liteconomy
+    prefix: le_
+
+settings:
+  currency:
+    singular: Dollar
+    plural: Dollars
+  schedulers:
+    autosave: 1800
+    baltop: 300
+
+messages:
+  invalidPlayer: '&cThat player has not played before.'
+  noNegative: '&cPlease use positive numbers.'
+  balance:
+    admin:
+      added: '&6%balance &aadded to &6%player&a.'
+      taken: '&6%balance &ataken from &6%player&a.'
+      set: '&6%player&a''s balance set to &6%balance&a.'
+      reset: '&6%player&a''s balance reset.'
+      error: '&cAn error has occurred while executing this command.'
+      baltopUpdated: '&aBaltop update in progress.'
+    player:
+      self: '&aYou have &6$%money &ain your account.'
+      other: '&6%player &ahas &6$%money &ain their account.'
+    pay:
+      sent: '&aYou have paid &6$%money &ato &6%player&a.'
+      received: '&aYou have received &6$%money &afrom &6%player&a.'
+      notEnoughMoney: '&cNot enough money.'
+
+
+baltopMenu:
+  name: 'Balance Top'
+  playerItem:
+    name: '&6&l%player'
+    lore:
+      - '&7Place: &6#%place'
+      - '&7Balance: &6%balance'
+  nextPage:
+    material: ARROW
+    name: '&aNext Page'
+    lore: []
+  previousPage:
+    material: ARROW
+    name: '&cPrevious Page'
+    lore: []

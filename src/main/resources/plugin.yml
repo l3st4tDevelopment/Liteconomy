@@ -1,0 +1,6 @@
+name: ${project.name}
+version: ${project.version}
+author: l3st4t
+main: com.l3tplay.liteconomy.Liteconomy
+api-version: 1.16
+depend: [Vault]
