@@ -109,6 +109,7 @@ public class AdminCommand extends BaseCommand {
     }
 
     @Subcommand("updatebaltop")
+    @Description("Force a baltop update.")
     public void onBaltopUpdate(CommandSender sender) {
         plugin.getStorageManager().updateBaltop();
         sender.sendMessage(ColorUtils.colorString(plugin.getConfig().getString("messages.balance.admin.baltopUpdated")));

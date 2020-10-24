@@ -17,8 +17,13 @@ import fr.minuskube.inv.InventoryManager;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Locale;
 
 public class Liteconomy extends JavaPlugin {
 
@@ -30,6 +35,10 @@ public class Liteconomy extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+
+        if (!new File(getDataFolder() + File.separator + "acf-lang.yml").exists()) {
+            saveResource("acf-lang.yml", false);
+        }
 
         this.taskChainFactory = BukkitTaskChainFactory.create(this);
 
@@ -57,8 +66,13 @@ public class Liteconomy extends JavaPlugin {
         commandManager.registerCommand(new PayCommand(this));
         commandManager.enableUnstableAPI("help");
 
-        Bukkit.getScheduler().runTaskTimer(this, () -> storageManager.updateBaltop(), 0L, getConfig().getInt("settings.schedulers.baltop") * 20);
+        try {
+            commandManager.getLocales().loadYamlLanguageFile("acf-lang.yml", Locale.ENGLISH);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
 
+        Bukkit.getScheduler().runTaskTimer(this, () -> storageManager.updateBaltop(), 0L, getConfig().getInt("settings.schedulers.baltop") * 20);
         Bukkit.getScheduler().runTaskTimer(this, () -> storageManager.autosave(), 0L, getConfig().getInt("settings.schedulers.autosave") * 20);
 
         Bukkit.getServicesManager().register(Economy.class, new LiteconomyHook(this), this, ServicePriority.Normal);
