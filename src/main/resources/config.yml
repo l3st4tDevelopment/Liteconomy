@@ -30,6 +30,7 @@ messages:
     player:
       self: '&aYou have &6$%money &ain your account.'
       other: '&6%player &ahas &6$%money &ain their account.'
+      notEnoughArguments: '&cPlease specify a player name.'
     pay:
       sent: '&aYou have paid &6$%money &ato &6%player&a.'
       received: '&aYou have received &6$%money &afrom &6%player&a.'

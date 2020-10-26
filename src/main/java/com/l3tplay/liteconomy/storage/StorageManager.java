@@ -35,10 +35,7 @@ public abstract class StorageManager {
             return CompletableFuture.completedFuture(playerMap.get(player.getPlayer()));
         }
 
-        CompletableFuture<BigDecimal> result = new CompletableFuture<>();
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> result.complete(loadPlayerData(player)));
-
-        return result;
+        return CompletableFuture.supplyAsync(() -> loadPlayerData(player));
     }
 
     public boolean setBalance(OfflinePlayer player, BigDecimal money) {

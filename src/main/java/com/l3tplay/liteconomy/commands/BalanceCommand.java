@@ -6,6 +6,7 @@ import com.l3tplay.liteconomy.Liteconomy;
 import com.l3tplay.liteconomy.utils.ColorUtils;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
@@ -19,14 +20,21 @@ public class BalanceCommand extends BaseCommand {
     @Default
     @Syntax("<player>")
     @CommandCompletion("@players")
-    public void onBalance(Player player, @Optional OfflinePlayer other) {
+    public void onBalance(CommandSender sender, @Optional OfflinePlayer other) {
         if (other != null && other.hasPlayedBefore()) {
             BigDecimal money = plugin.getStorageManager().getBalance(other).join();
-            player.sendMessage(ColorUtils.colorString(plugin.getConfig().getString("messages.balance.player.other"))
+            sender.sendMessage(ColorUtils.colorString(plugin.getConfig().getString("messages.balance.player.other"))
                     .replace("%money", money.toString())
                     .replace("%player", other.getName()));
             return;
         }
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(ColorUtils.colorString(plugin.getConfig().getString("messages.balance.player.notEnoughArguments")));
+            return;
+        }
+
+        Player player = (Player)sender;
 
         BigDecimal money = plugin.getStorageManager().getBalance(player).join();
         player.sendMessage(ColorUtils.colorString(plugin.getConfig().getString("messages.balance.player.self")).replace("%money", money.toString()));
