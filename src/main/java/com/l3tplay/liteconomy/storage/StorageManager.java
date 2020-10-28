@@ -31,7 +31,7 @@ public abstract class StorageManager {
     }
 
     public CompletableFuture<BigDecimal> getBalance(OfflinePlayer player) {
-        if (player.isOnline()) {
+        if (player.isOnline() && playerMap.containsKey(player.getPlayer())) {
             return CompletableFuture.completedFuture(playerMap.get(player.getPlayer()));
         }
 
@@ -44,6 +44,10 @@ public abstract class StorageManager {
         }
 
         if (money.signum() == -1) {
+            return false;
+        }
+
+        if (player.isOnline() && !playerMap.containsKey(player.getPlayer())) {
             return false;
         }
 
