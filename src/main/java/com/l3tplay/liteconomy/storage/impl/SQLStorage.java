@@ -38,14 +38,14 @@ public class SQLStorage extends StorageManager {
     }
 
     @Override
-    protected BigDecimal loadPlayerData(OfflinePlayer player) {
+    protected BigDecimal loadPlayerData(OfflinePlayer player, BigDecimal defaultValue) {
         try (Connection connection = hikariDataSource.getConnection();
              PreparedStatement insert = connection.prepareStatement(this.insert);
              PreparedStatement select = connection.prepareStatement(this.select)) {
 
             insert.setString(1, player.getUniqueId().toString());
             insert.setString(2, player.getName());
-            insert.setBigDecimal(3, new BigDecimal(0));
+            insert.setBigDecimal(3, defaultValue);
             insert.setString(4, player.getName());
             insert.execute();
 

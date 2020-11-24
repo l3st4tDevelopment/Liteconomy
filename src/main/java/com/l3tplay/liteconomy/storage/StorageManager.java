@@ -21,13 +21,13 @@ public abstract class StorageManager {
 
     public void loadPlayer(Player player) {
         plugin.newChain().asyncFirst(() ->
-                loadPlayerData(player)).syncLast(balance ->
+                loadPlayerData(player, plugin.getStartingValue())).syncLast(balance ->
                     playerMap.put(player, balance.setScale(2, RoundingMode.HALF_EVEN)))
                         .execute();
     }
 
     public void createAccount(OfflinePlayer player) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> loadPlayerData(player));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> loadPlayerData(player, plugin.getStartingValue()));
     }
 
     public CompletableFuture<BigDecimal> getBalance(OfflinePlayer player) {
@@ -35,7 +35,7 @@ public abstract class StorageManager {
             return CompletableFuture.completedFuture(playerMap.get(player.getPlayer()));
         }
 
-        return CompletableFuture.supplyAsync(() -> loadPlayerData(player));
+        return CompletableFuture.supplyAsync(() -> loadPlayerData(player, plugin.getStartingValue()));
     }
 
     public boolean setBalance(OfflinePlayer player, BigDecimal money) {
@@ -109,7 +109,7 @@ public abstract class StorageManager {
         return Collections.unmodifiableSortedMap(baltop);
     }
 
-    protected abstract BigDecimal loadPlayerData(OfflinePlayer player);
+    protected abstract BigDecimal loadPlayerData(OfflinePlayer player, BigDecimal defaultValue);
     protected abstract void savePlayerData(OfflinePlayer player, BigDecimal balance);
     protected abstract boolean hasAccount(OfflinePlayer player);
     protected abstract SortedMap<UUID, BigDecimal> sortPlayers();

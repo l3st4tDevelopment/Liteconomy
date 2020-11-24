@@ -15,6 +15,7 @@ settings:
   schedulers:
     autosave: 1800
     baltop: 300
+  startingBalance: 0.0
 
 messages:
   invalidPlayer: '&cThat player has not played before.'

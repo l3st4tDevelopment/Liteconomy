@@ -23,6 +23,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Locale;
 
 public class Liteconomy extends JavaPlugin {
@@ -84,6 +86,10 @@ public class Liteconomy extends JavaPlugin {
     public void onDisable() {
         Bukkit.getOnlinePlayers().forEach(storageManager::savePlayer);
         storageManager.close();
+    }
+
+    public BigDecimal getStartingValue() {
+        return BigDecimal.valueOf(getConfig().getDouble("settings.startingBalance")).setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public <T> TaskChain<T> newChain() {

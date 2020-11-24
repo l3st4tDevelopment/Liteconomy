@@ -25,10 +25,10 @@ public class FileStorage extends StorageManager {
     }
 
     @Override
-    protected BigDecimal loadPlayerData(OfflinePlayer player) {
+    protected BigDecimal loadPlayerData(OfflinePlayer player, BigDecimal defaultValue) {
         FileConfiguration config = dataFile.getConfig();
         if (!hasAccount(player)) {
-            savePlayerData(player, new BigDecimal(0));
+            savePlayerData(player, defaultValue);
         }
 
         return new BigDecimal(config.getString(player.getUniqueId().toString()));
