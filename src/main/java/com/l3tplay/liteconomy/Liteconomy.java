@@ -16,6 +16,7 @@ import com.l3tplay.liteconomy.storage.impl.SQLStorage;
 import fr.minuskube.inv.InventoryManager;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.ServicePriority;
@@ -80,6 +81,8 @@ public class Liteconomy extends JavaPlugin {
         Bukkit.getServicesManager().register(Economy.class, new LiteconomyHook(this), this, ServicePriority.Normal);
 
         Bukkit.getPluginManager().registerEvents(new StorageListener(this), this);
+
+        new Metrics(this, 9610);
     }
 
     @Override
