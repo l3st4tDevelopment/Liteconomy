@@ -5,14 +5,11 @@ import com.l3tplay.liteconomy.storage.StorageManager;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.*;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.UUID;
+import java.util.*;
 
 public class SQLStorage extends StorageManager {
 
@@ -93,8 +90,8 @@ public class SQLStorage extends StorageManager {
     }
 
     @Override
-    protected SortedMap<UUID, BigDecimal> sortPlayers() {
-        SortedMap<UUID, BigDecimal> sortedMap = new TreeMap<>();
+    protected Map<UUID, BigDecimal> sortPlayers() {
+        Map<UUID, BigDecimal> sortedMap = new HashMap<>();
         try (Connection connection = hikariDataSource.getConnection();
              Statement statement = connection.createStatement()) {
 

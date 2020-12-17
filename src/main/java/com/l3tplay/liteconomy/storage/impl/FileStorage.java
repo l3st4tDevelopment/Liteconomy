@@ -9,9 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.UUID;
+import java.util.*;
 
 public class FileStorage extends StorageManager {
 
@@ -48,8 +46,8 @@ public class FileStorage extends StorageManager {
     }
 
     @Override
-    protected SortedMap<UUID, BigDecimal> sortPlayers() {
-        SortedMap<UUID, BigDecimal> map = new TreeMap<>();
+    protected Map<UUID, BigDecimal> sortPlayers() {
+        Map<UUID, BigDecimal> map = new HashMap<>();
         for (String key : dataFile.getConfig().getConfigurationSection("").getKeys(false)) {
             map.put(UUID.fromString(key), new BigDecimal(dataFile.getConfig().getString(key)).setScale(2, RoundingMode.HALF_EVEN));
         }

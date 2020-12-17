@@ -62,11 +62,11 @@ public class BaltopInventory implements InventoryProvider {
         pagination.setItemsPerPage(27);
 
         SlotIterator iterator = contents.newIterator(SlotIterator.Type.HORIZONTAL,1, 1)
-                .blacklist(1, 7)
+                .blacklist(1, 8)
                 .blacklist(2, 0)
-                .blacklist(2, 7)
+                .blacklist(2, 8)
                 .blacklist(3, 0)
-                .blacklist(3, 7);
+                .blacklist(3, 8);
 
         pagination.addToIterator(iterator);
 

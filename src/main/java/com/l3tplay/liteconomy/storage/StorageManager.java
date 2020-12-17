@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public abstract class StorageManager {
@@ -17,7 +18,7 @@ public abstract class StorageManager {
     private final Liteconomy plugin;
     private final Map<Player, BigDecimal> playerMap = new HashMap<>();
 
-    private SortedMap<UUID, BigDecimal> baltop = new TreeMap<>();
+    private Map<UUID, BigDecimal> baltop = new LinkedHashMap<>();
 
     public void loadPlayer(Player player) {
         plugin.newChain().asyncFirst(() ->
@@ -85,7 +86,12 @@ public abstract class StorageManager {
                    for (Player player : Bukkit.getOnlinePlayers()) {
                        sortedMap.put(player.getUniqueId(), getBalance(player).join());
                    }
-                   this.baltop = sortedMap;
+                   this.baltop = sortedMap
+                           .entrySet()
+                           .stream()
+                           .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                           .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,
+                                           LinkedHashMap::new));
                 }).execute();
     }
 
@@ -105,14 +111,14 @@ public abstract class StorageManager {
         return hasAccount(player);
     }
 
-    public SortedMap<UUID, BigDecimal> getBaltop() {
-        return Collections.unmodifiableSortedMap(baltop);
+    public Map<UUID, BigDecimal> getBaltop() {
+        return Collections.unmodifiableMap(baltop);
     }
 
     protected abstract BigDecimal loadPlayerData(OfflinePlayer player, BigDecimal defaultValue);
     protected abstract void savePlayerData(OfflinePlayer player, BigDecimal balance);
     protected abstract boolean hasAccount(OfflinePlayer player);
-    protected abstract SortedMap<UUID, BigDecimal> sortPlayers();
+    protected abstract Map<UUID, BigDecimal> sortPlayers();
 
     public abstract void init();
     public abstract void close();
