@@ -13,6 +13,7 @@ import com.l3tplay.liteconomy.listeners.StorageListener;
 import com.l3tplay.liteconomy.storage.StorageManager;
 import com.l3tplay.liteconomy.storage.impl.FileStorage;
 import com.l3tplay.liteconomy.storage.impl.SQLStorage;
+import com.l3tplay.liteconomy.storage.impl.SQLiteStorage;
 import fr.minuskube.inv.InventoryManager;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
@@ -48,6 +49,10 @@ public class Liteconomy extends JavaPlugin {
         switch (getConfig().getString("storage.type").toLowerCase()) {
             case "mysql": {
                 this.storageManager = new SQLStorage(this);
+                break;
+            }
+            case "sqlite": {
+                this.storageManager = new SQLiteStorage(this);
                 break;
             }
             default: {

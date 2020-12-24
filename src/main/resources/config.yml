@@ -1,5 +1,5 @@
 storage:
-  type: file
+  type: sqlite
   mysql:
     host: localhost
     port: 3306
@@ -16,10 +16,12 @@ settings:
     autosave: 1800
     baltop: 300
   startingBalance: 0.0
+  baltopLimit: 10
 
 messages:
   invalidPlayer: '&cThat player has not played before.'
   noNegative: '&cPlease use positive numbers.'
+  loadingBaltop: '&aLoading baltop, please wait.'
   balance:
     admin:
       added: '&6%balance &aadded to &6%player&a.'

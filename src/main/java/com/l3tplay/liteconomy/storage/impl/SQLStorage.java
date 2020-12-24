@@ -95,7 +95,7 @@ public class SQLStorage extends StorageManager {
         try (Connection connection = hikariDataSource.getConnection();
              Statement statement = connection.createStatement()) {
 
-            ResultSet resultSet = statement.executeQuery("SELECT UUID,MONEY FROM " + this.prefix + "balance");
+            ResultSet resultSet = statement.executeQuery("SELECT UUID,MONEY FROM " + this.prefix + "balance ORDER BY MONEY DESC LIMIT " + plugin.getConfig().getInt("settings.baltopLimit"));
             while (resultSet.next()) {
                 sortedMap.put(UUID.fromString(resultSet.getString("UUID")), resultSet.getBigDecimal("MONEY").setScale(2, RoundingMode.HALF_EVEN));
             }

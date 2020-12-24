@@ -26,6 +26,7 @@ import java.util.UUID;
 public class BaltopInventory implements InventoryProvider {
 
     private final Liteconomy plugin;
+    private final Map<OfflinePlayer, BigDecimal> topPlayers;
 
     public static SmartInventory getInventory(Liteconomy plugin, BaltopInventory inventory) {
         return SmartInventory.builder()
@@ -41,7 +42,7 @@ public class BaltopInventory implements InventoryProvider {
         Pagination pagination = contents.pagination();
 
         List<ClickableItem> items = new ArrayList<>();
-        for (Map.Entry<UUID, BigDecimal> top : plugin.getStorageManager().getBaltop().entrySet()) {
+        for (Map.Entry<OfflinePlayer, BigDecimal> top : topPlayers.entrySet()) {
             List<String> lore = ColorUtils.colorList(plugin.getConfig().getStringList("baltopMenu.playerItem.lore"));
             lore.replaceAll(text -> {
                 text = text.replace("%place", items.size() + 1 + "");
@@ -49,12 +50,11 @@ public class BaltopInventory implements InventoryProvider {
 
                 return text;
             });
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(top.getKey());
 
             items.add(ClickableItem.empty(new ItemBuilder(Material.PLAYER_HEAD)
                     .setName(ColorUtils.colorString(plugin.getConfig().getString("baltopMenu.playerItem.name"))
-                            .replace("%player", offlinePlayer.getName()))
-                    .setOwningPlayer(offlinePlayer)
+                            .replace("%player", top.getKey().getName()))
+                    .setOwningPlayer(top.getKey())
                     .setLore(lore).build()));
         }
 

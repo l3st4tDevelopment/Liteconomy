@@ -90,6 +90,7 @@ public abstract class StorageManager {
                            .entrySet()
                            .stream()
                            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                           .limit(plugin.getConfig().getInt("settings.baltopLimit"))
                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,
                                            LinkedHashMap::new));
                 }).execute();
@@ -115,11 +116,11 @@ public abstract class StorageManager {
         return Collections.unmodifiableMap(baltop);
     }
 
+    public abstract void init();
+    public abstract void close();
+
     protected abstract BigDecimal loadPlayerData(OfflinePlayer player, BigDecimal defaultValue);
     protected abstract void savePlayerData(OfflinePlayer player, BigDecimal balance);
     protected abstract boolean hasAccount(OfflinePlayer player);
     protected abstract Map<UUID, BigDecimal> sortPlayers();
-
-    public abstract void init();
-    public abstract void close();
 }
